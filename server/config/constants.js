@@ -8,7 +8,7 @@ const actions = {
 
 const models = {
   log: {
-    name: 'log',
+    name: 'Log',
     endpoint: 'logs'
   },
   tag: {

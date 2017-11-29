@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <error></error>
+    <!-- <error></error> -->
     <router-view></router-view>
   </div>
 </template>
@@ -11,6 +11,9 @@ export default {
   name: 'app',
   components:{
     Error
+  },
+  mounted(){
+    this.$store.dispatch('authenticate')
   }
 }
 </script>
