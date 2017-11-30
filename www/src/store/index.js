@@ -19,6 +19,7 @@ vue.use(vuex)
 var store = new vuex.Store({
   state: {
     logs: [],
+    shipLogs: [],
     activeLog: {},
     activeShip: {},
     error: {},
@@ -40,6 +41,11 @@ var store = new vuex.Store({
     setActiveShip(state, ship){
       state.activeShip = ship
     },
+    setShipLogs(state, data) {
+      state.shipLogs = data
+    },
+
+    //Errors
     handleError(state, err) {
       state.error = err
     }
@@ -100,9 +106,10 @@ var store = new vuex.Store({
         })
     },
     getLogsByShip({commit, dispatch}, shipId){
-      api('ships?shipId=' + shipId)
+      api('ships/' + shipId + '/logs')
         .then(res=>{
-          commit('setLogs', res.data.data)
+          debugger
+          commit('setShipLogs', res.data.data)
         })
         .catch(err => {
           commit('handleError', err)
@@ -157,7 +164,7 @@ var store = new vuex.Store({
           commit('handleError', err)
         })
     },
-
+    
 
 
     handleError({ commit, dispatch }, err) {

@@ -18,6 +18,7 @@ const models = {
   ship: {
     name: 'Ship',
     endpoint: 'ships',
+    useCustomRoutes: true
     },
   user: {
     name: 'User',

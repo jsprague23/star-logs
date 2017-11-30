@@ -7,6 +7,15 @@
         <p class="action" @click="removeLog(log)">x</p>
       </li>
     </ul>
+
+    <div class="ship-logs">
+      <button v-if="user.rank == 'Captain'" @click="getLogsByShipId">Get MyShip Logs</button>
+      <ul>
+          <li v-for="shipLog in shipLogs">
+            <router-link :to="'/logs/'+shipLog._id">{{shipLog.title}}</router-link>
+          </li>
+        </ul>
+    </div>
   </div>
 </template>
 
@@ -26,6 +35,9 @@
       },
       user(){
         return this.$store.state.user
+      },
+      shipLogs(){
+        return this.$store.state.shipLogs
       }
     },
     methods: {
@@ -39,6 +51,9 @@
       },
       removeLog(log) {
         this.$store.dispatch('removeLog', log)
+      },
+      getLogsByShipId(){
+        this.$store.dispatch('getLogsByShip', this.user.shipId)
       }
     }
   }
