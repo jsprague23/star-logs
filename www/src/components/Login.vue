@@ -83,6 +83,13 @@
             },
             submitRegister(){
                 this.$store.dispatch('register', this.register)
+                this.register = {
+                    name: '',
+                    email: '',
+                    password: '',
+                    rank: '',
+                    division: ''
+                }
             }
         },
         computed: {

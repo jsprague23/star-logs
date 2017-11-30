@@ -18,31 +18,39 @@ vue.use(vuex)
 
 var store = new vuex.Store({
   state: {
-    logs: [{ _id: '', name: 'This is total rubbish' }],
+    logs: [],
     activeLog: {},
+    activeShip: {},
     error: {},
     user: {}
   },
   mutations: {
+    //User
     setUser(state, user){
       state.user = user
     },
+    //Logs
     setLogs(state, data) {
       state.logs = data
+    },
+    setActiveLog(state, log){
+      state.activeLog = log
+    },
+    //Ship
+    setActiveShip(state, ship){
+      state.activeShip = ship
     },
     handleError(state, err) {
       state.error = err
     }
   },
   actions: {
-    //when writing your auth routes (login, logout, register) 
-    //be sure to use auth instead of api for the posts
-
     //AUTH
     login({commit, dispatch}, payload){
       auth.post('login', payload)
         .then(res=>{
           commit('setUser', res.data.data)
+          dispatch('getShip', res.data.data.shipId)
           router.push({name: 'Logs'})
         })
         .catch(err=>{
@@ -50,12 +58,20 @@ var store = new vuex.Store({
         })
     },
     register({commit, dispatch}, payload){
-
+      auth.post('register', payload)
+      .then(res=>{
+        commit('setUser', res.data.data)
+        router.push({name: 'Logs'})
+      })
+      .catch(err=>{
+        commit('handleError', err.response.data)
+      })
     },
     authenticate({commit, dispatch}){
       auth('authenticate')
         .then(res=>{
           commit('setUser', res.data.data)
+          dispatch('getShip', res.data.data.shipId)
           router.push({name: 'Logs'})
         })
         .catch(()=>{
@@ -63,13 +79,29 @@ var store = new vuex.Store({
         })
     },
     logout({commit, dispatch}){
-
+      auth.delete('logout')
+        .then(()=>{
+          commit('setUser', {})
+          router.push({name: 'Login'})
+        })
+        .catch(()=>{
+          router.push({name: 'Login'})
+        })
     },
 
-
-    getLogs({ commit, dispatch }) {
-      api('logs')
+    //LOGS
+    getUserLogs({ commit, dispatch }) {
+      api('mylogs')
         .then(res => {
+          commit('setLogs', res.data.data)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    getLogsByShip({commit, dispatch}, shipId){
+      api('ships?shipId=' + shipId)
+        .then(res=>{
           commit('setLogs', res.data.data)
         })
         .catch(err => {
@@ -86,10 +118,11 @@ var store = new vuex.Store({
         })
     },
     createLog({ commit, dispatch }, log) {
-      debugger
       api.post('logs/', log)
         .then(res => {
-          dispatch('getLogs')
+          dispatch('getUserLogs')
+          commit('setActiveLog', res.data.data)
+          router.push({name: "Log", params: {id: res.data.data._id}})
         })
         .catch(err => {
           commit('handleError', err)
@@ -97,13 +130,36 @@ var store = new vuex.Store({
     },
     removeLog({ commit, dispatch }, log) {
       api.delete('logs/' + log._id)
-        .then(res => {
-          this.getLogs()
+        .then(res => {  
+          dispatch('getUserLogs')
         })
         .catch(err => {
           commit('handleError', err)
         })
     },
+    updateLog({commit, dispatch}, log){
+      api.put('logs/'+log._id, log)
+        .then(log=>{
+          dispatch('getUserLogs')
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })  
+    },
+
+    //SHIP
+    getShip({commit, dispatch}, shipId){
+      api('/ships/'+shipId)
+        .then(res=>{
+          commit('setActiveShip', res.data.data)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+
+
+
     handleError({ commit, dispatch }, err) {
       commit('handleError', err)
     }

@@ -17,8 +17,8 @@ const models = {
   },
   ship: {
     name: 'Ship',
-    endpoint: 'ships'
-  },
+    endpoint: 'ships',
+    },
   user: {
     name: 'User',
     endpoint: 'users',
