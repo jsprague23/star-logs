@@ -14,6 +14,8 @@ var Auth = require('../authentication/auth')
 let app = express()
 let server = require('http').createServer(app)
 
+app.use(express.static(__dirname + '/public'))
+
 function Validate(req, res, next) {
     // ONLY ALLOW GET METHOD IF NOT LOGGED IN 
     console.log(req.session)
