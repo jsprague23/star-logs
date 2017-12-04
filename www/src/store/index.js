@@ -4,13 +4,13 @@ import vuex from 'vuex'
 import router from '../router'
 
 let api = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: '//star-logs.herokuapp.com/api/',
   timeout: 2000,
   withCredentials: true
 })
 
 let auth = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: '//star-logs.herokuapp.com/',
   timeout: 2000,
   withCredentials: true
 })

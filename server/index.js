@@ -4,6 +4,8 @@ let mongoose = require('mongoose')
 let connection = mongoose.connection;
 
 
+app.use(express.static(__dirname + '/public'))
+
 // Establishes MongoDb Connection
 mongoose.connect(process.env.CONNECTIONSTRING, {
 	useMongoClient: true,

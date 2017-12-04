@@ -1,0 +1,60 @@
+
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.action[data-v-0f65c0e7]{
+    cursor: pointer;
+    opacity: .7;
+    transition: all .3s linear;
+}
+.action[data-v-0f65c0e7]:hover{
+    opacity: 1
+}
+
+.edit-log[data-v-0060d7bc] {
+  margin-top: 15%;
+}
+.btn[data-v-0060d7bc] {
+  margin: 5%;
+}
+.log[data-v-0060d7bc]{
+  margin-top: 15%;
+}
+.log-body[data-v-0060d7bc]{
+  outline: 2px solid green;
+}
+
+.action{
+    cursor: pointer;
+    opacity: .7;
+    transition: all .3s linear;
+}
+.action:hover{
+    opacity: 1
+}
+
+/*# sourceMappingURL=app.b97ee9382cd5462fe4448a120006818b.css.map*/

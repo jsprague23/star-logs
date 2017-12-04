@@ -7,7 +7,7 @@ import io from 'socket.io-client'
 import store from './store'
 
 
-let socket = io('http://localhost:3000')
+let socket = io('//star-logs.herokuapp.com')
 
 socket.on('CONNECTED', function (data) {
   console.log(data)
