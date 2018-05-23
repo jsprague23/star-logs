@@ -12,26 +12,13 @@ let schema = new Schema({
   rank: {
     type: String, required: true, enum:
       [
-        'Civilian',
-        'Enlisted',
-        'Petty Officer',
         'Ensign',
-        'Lieutenant Junior Grade',
         'Lieutenant',
-        'Lieutenant Commander',
-        'Commander',
         'Captain',
-        'Fleet Captain',
-        'Commodore',
-        'Rear Admiral',
-        'Vice Admiral',
         'Admiral',
-        'Fleet Admiral',
-        'Commander in Chief'
       ],
-    default: 'Civilian'
+    default: 'Ensign'
   },
-  division: { type: String, enum: ['Command', 'Engineering and Tactical', 'Science and Medical'] },
   shipId: { type: ObjectId, ref: 'Ship' }
 })
 
