@@ -2,6 +2,7 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 let bcrypt = require('bcryptjs')
+var schemaName='User'
 const SALT_FACTOR = 10
 
 let schema = new Schema({
@@ -19,7 +20,7 @@ let schema = new Schema({
       ],
     default: 'Ensign'
   },
-  shipId: { type: ObjectId, ref: 'Ship' }
+  shipId: { type: ObjectId, ref: 'Ship', }
 })
 
 

@@ -1,7 +1,7 @@
 {
-  "name": "vue-kanban-server",
+  "name": "star-log-server",
   "version": "1.0.0",
-  "description": "The server for vue-kanban",
+  "description": "The server for star-log",
   "main": "index.js",
   "scripts": {
     "debug": "node index.js",
