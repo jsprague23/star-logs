@@ -11,7 +11,9 @@ router.get('/logs', (req, res, ) => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
       } else if (user.rank != 'Admiral') {
-        Logs.findById(user.shipId)
+        Logs.find({
+          shipId: user.shipId
+        })
           .then((log) => {
             res.status(200).send(log)
           })
@@ -39,7 +41,7 @@ router.post('/logs', (req, res, next) => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
       }
-      else if (user.shipId != req.body.shipId || user.rank != 'Admiral') {
+      else if (user.shipId != req.body.shipId && user.rank != 'Admiral') {
         return res.status(400).send({ message: "invalid action" })
       }
       var log = req.body
