@@ -6,7 +6,7 @@ var port = 3000
 
 app.use(cors())
 //Fire up database connection
-require('./server/db/mlab-config')
+require('./db/mlab-config')
 
 
 //REGISTER MIDDLEWEAR
@@ -16,12 +16,14 @@ app.use(bp.urlencoded({
 }))
 
 let auth = require('./authentication/auth')
-app.use(auth.sessions)
-app.use(auth.auth)
+app.use(auth.session)
+app.use(auth.router)
 //Code above is always the same ^^
 
 //routes
+var ships = require('./routes/ships')
 
+app.use(ships.router)
 
 app.use('/members/*', (req, res, next) => {
   if (!req.session.uid) {
@@ -32,27 +34,27 @@ app.use('/members/*', (req, res, next) => {
   next()
 })
 
-app.use('/admin/*', (req, res, next) => {
+// app.use('/admin/*', (req, res, next) => {
 
-    Admirals.findOne({
-        uid: req.session.uid
-      })
-      .then(isAdmin => {
-        if (!isAdmin) {
-          return res.status(401).send({
-            error: 'Insufficient Privledges'
-          })
-        }
-        next()
-      })
-    if (!req.session.uid) {
-      return res.status(401).send({
-        error: 'please login to continue'
-      })
-    }
-    next()
+//     Admirals.findOne({
+//         uid: req.session.uid
+//       })
+//       .then(isAdmin => {
+//         if (!isAdmin) {
+//           return res.status(401).send({
+//             error: 'Insufficient Privledges'
+//           })
+//         }
+//         next()
+//       })
+//     if (!req.session.uid) {
+//       return res.status(401).send({
+//         error: 'please login to continue'
+//       })
+//     }
+//     next()
      
-})
+// })
 
 
 
