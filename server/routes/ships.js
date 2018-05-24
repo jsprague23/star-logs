@@ -11,8 +11,8 @@ router.get('/api/ships', (req, res) => {
         return res.status(400).send({ message: "invalid action" })
       } else if (user.rank != 'Admiral') {
         Ships.findById(user.shipId)
-          .then((ship) => {
-            res.status(200).send(ship)
+        .then((ship) => {
+          res.status(200).send(ship)
           })
           .catch(err => {
             res.status(400).send(err)
