@@ -15,12 +15,12 @@ router.post('/api/ships', (req, res, next) => {
         return res.status(400).send({ message: "invalid action" })
       }
       Ships.find({})
-       .then(ships => {
-         res.status(200).send(ships)
-       })
-       .catch(err => {
-        res.status(400).send(err)
-       })
+        .then(ships => {
+          res.status(200).send(ships)
+        })
+        .catch(err => {
+          res.status(400).send(err)
+        })
     })
     .catch(err => {
       res.status(400).send(err)
@@ -28,21 +28,23 @@ router.post('/api/ships', (req, res, next) => {
 })
 
 //EDIT
-router.put('/api/galaxies/:id', (req, res, next) => {
-  Galaxies.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then(galaxy => {
-      res.status(200).send({ message: "Successfully Updated", galaxy })
-    })
-    .catch(err => {
-      res.status(400).send(err)
-    })
-})
-
-//DESTROY
-router.delete('/api/galaxies/:id', (req, res, next) => {
-  Galaxies.findByIdAndRemove(req.params.id)
-    .then(data => {
-      res.send("Successfully Deleted Cat")
+router.post('/api/create-ship', (req, res, next) => {
+  Users.findOne({
+    _id: req.body.userId
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(400).send({ message: "invalid action" })
+      } else if (user.rank != 'Admiral') {
+        return res.status(400).send({ message: "invalid action" })
+      }
+      Ships.create(req.body)
+        .then(newShip => {
+          res.status(200).send(newShip)
+        })
+        .catch(err => {
+          res.status(400).send(err)
+        })
     })
     .catch(err => {
       res.status(400).send(err)
