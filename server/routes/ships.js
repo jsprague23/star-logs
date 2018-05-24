@@ -1,13 +1,11 @@
 var router = require('express').Router()
 var Ships = require('../models/ship')
 var Users = require('../models/user')
+let session = require('../authentication/sessions')
 
 //get by admiral id
-router.post('/api/ships', (req, res, next) => {
-  var userId = req.body
-  Users.findOne({
-    _id: req.body._id
-  })
+router.get('/api/ships', (req, res) => {
+  Users.findById(req.session.uid)
     .then(user => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
@@ -29,9 +27,7 @@ router.post('/api/ships', (req, res, next) => {
 
 //EDIT
 router.post('/api/create-ship', (req, res, next) => {
-  Users.findOne({
-    _id: req.body.userId
-  })
+  Users.findById(req.session.uid)
     .then(user => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
