@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
 })
 
 router.delete('/logout', (req, res) => {
-  req.session.destroy(()=> {
+  req.session.destroy(() => {
     res.send({
       message: 'You have successfully been logged out. Please come back soon!'
 
@@ -58,20 +58,63 @@ router.delete('/logout', (req, res) => {
 })
 
 router.get('/authenticate', (req, res) => {
-    Users.findById(req.session.uid).then(user => {
-      if (!user) {
-        return res.status(401).send({ "error": "Please Login" })
-      }
-      return res.send({
-        data: user
-      })
-    }).catch(err => {
-      return res.status(500).send({
-        error: err
-      })
+  Users.findById(req.session.uid).then(user => {
+    if (!user) {
+      return res.status(401).send({ "error": "Please Login" })
+    }
+    return res.send({
+      data: user
+    })
+  }).catch(err => {
+    return res.status(500).send({
+      error: err
     })
   })
+})
 
+router.put('/user/rank-change/:uid?', (req, res) => {
+  if(!req.params.uid) {
+    Users.findById(req.session.uid)
+     .then(user => {
+       if(!user) {
+         return res.status(401).send({ "error": "Please Login" })
+       }
+       user.rank = user.changeRank(req.body.rank)
+        user.save().then(() => {
+            res.send(user)
+          })
+          .catch(err => {
+            res.status(500).send(err)
+          })
+     })
+  }
+  Users.findById(req.session.uid).then(currentUser => {
+    if (!currentUser) {
+      return res.status(401).send({ "error": "Please Login" })
+    }
+    Users.findById(req.params.uid).then(otherUser => {
+      if (!otherUser) {
+        return res.status(400).send({
+          error: 'invalid user id'
+        })
+      }
+
+      if (!currentUser.setRoleForOther(otherUser, req.body.rank)) {
+        return res.status(401).send({
+          error: 'no can do'
+        })
+      }
+
+      otherUser.save().then(() => {
+        res.send({
+          message: 'Success roled to ' + otherUser.role
+        })
+      }).catch(err => {
+        res.status(500).send(err)
+      })
+    })
+})
+})
 
 
 module.exports = { router, session }

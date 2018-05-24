@@ -22,8 +22,12 @@ app.use(auth.router)
 
 //routes
 var ships = require('./routes/ships')
+var logs = require('./routes/logs')
+var comments = require('./routes/comments')
 
 app.use(ships.router)
+app.use(logs.router)
+app.use(comments.router)
 
 app.use('/members/*', (req, res, next) => {
   if (!req.session.uid) {
