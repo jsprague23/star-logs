@@ -5,13 +5,15 @@ let session = require('../authentication/sessions')
 
 
 //GET ALL
-router.get('/comments', (req, res, ) => {
+router.get('/comments/:logId', (req, res) => {
   Users.findById(req.session.uid)
     .then(user => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
       }
-      Comments.findById(req.body.logId)
+      Comments.find({
+        logId: req.params.logId
+      })
         .then(comments => {
           res.status(200).send(comments)
         })
@@ -31,7 +33,7 @@ router.post('/comments', (req, res, next) => {
       if (!user) {
         return res.status(400).send({ message: "invalid action" })
       }
-      else if (user.shipId != req.body.shipId || user.rank != 'Admiral') {
+      else if (user.shipId != req.body.shipId && user.rank != 'Admiral') {
         return res.status(400).send({ message: "invalid action" })
       }
       var comment = req.body

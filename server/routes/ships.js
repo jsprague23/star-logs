@@ -4,7 +4,7 @@ var Users = require('../models/user')
 let session = require('../authentication/sessions')
 
 //get by admiral id
-router.get('/api/ships', (req, res) => {
+router.get('/ships', (req, res) => {
   Users.findById(req.session.uid)
     .then(user => {
       if (!user) {
@@ -32,7 +32,7 @@ router.get('/api/ships', (req, res) => {
 })
 
 //EDIT
-router.post('/api/create-ship', (req, res, next) => {
+router.post('/create-ship', (req, res, next) => {
   Users.findById(req.session.uid)
     .then(user => {
       if (!user) {
